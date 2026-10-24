@@ -27,6 +27,17 @@
 .notice{margin-top:12px;color:#738095;font-size:12px;text-align:center}
 @media(max-width:850px){.layout{grid-template-columns:1fr}.panel{position:static}.paper{min-height:760px;padding:38px 32px}.preview-card{min-height:0}.top-note{display:none}}
 @media print{body{background:#fff}.topbar,.intro,.panel,.preview-head,.notice{display:none!important}.wrap{padding:0;max-width:none}.layout{display:block}.preview-card{padding:0;border:0;background:#fff}.paper{width:210mm;min-height:297mm;margin:0;padding:18mm 20mm;box-shadow:none}.workgrid{background-image:linear-gradient(#dfe4eb 1px,transparent 1px),linear-gradient(90deg,#dfe4eb 1px,transparent 1px)}}
+.orientation-list{display:grid;gap:8px;max-height:240px;overflow:auto;padding-right:4px}
+.orientation-row{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:10px;align-items:center}
+.orientation-row span{font-size:13px;color:#364155}
+.orientation-row .control{height:38px}
+.preview-tools{display:flex;align-items:center;gap:8px}
+.page-nav{height:32px;padding:0 10px;min-width:32px}
+.page-nav:disabled{opacity:.45;cursor:not-allowed}
+.paper.landscape{width:min(100%,900px);min-height:640px}
+@page portrait{size:A4 portrait;margin:0}
+@page landscape{size:A4 landscape;margin:0}
+@media print{.paper.portrait{page:portrait;width:210mm;min-height:297mm;padding:18mm 20mm}.paper.landscape{page:landscape;width:297mm;min-height:210mm;padding:12mm 18mm}}
 </style>
 </head>
 <body>
@@ -37,14 +48,81 @@
 <aside class="panel" aria-label="Innstillinger for arbeidsarket"><h2>Innhold og oppsett</h2>
 <div class="section"><label class="label" for="grade">Trinn</label><select class="control" id="grade"><optgroup label="Barneskole"><option>1.–4. trinn</option><option>5.–7. trinn</option></optgroup><optgroup label="Ungdomsskole"><option selected>8. trinn</option><option>9. trinn</option><option>10. trinn</option></optgroup><optgroup label="Videregående"><option>VG1</option><option>VG2</option><option>VG3</option></optgroup></select></div>
 <div class="section"><span class="label">Tema</span><div class="checks"><label class="check"><input type="checkbox" name="topic" value="Brøk" checked>Brøk</label><label class="check"><input type="checkbox" name="topic" value="Prosent">Prosent</label><label class="check"><input type="checkbox" name="topic" value="Algebra">Algebra</label><label class="check"><input type="checkbox" name="topic" value="Geometri">Geometri</label></div><p class="hint">Flere temaer kan velges samtidig.</p></div>
-<div class="section"><label class="label" for="source">Oppgavekilde</label><select class="control" id="source"><option>Eksempeloppgaver</option><option disabled>Bøker og egne kilder – legges til</option></select><p class="hint">Kilder og oppgavetyper kan legges inn når de er gjennomgått.</p><div class="row"><div><label class="label" for="count">Antall oppgaver</label><input class="control" id="count" type="number" min="1" max="30" value="8"></div><div><label class="label" for="level">Nivå</label><select class="control" id="level"><option>Blandet</option><option>Enkel</option><option>Middels</option><option>Utfordrende</option></select></div></div><div style="margin-top:14px"><label class="label" for="pages">Antall sider</label><input class="control" id="pages" type="number" min="1" max="30" value="1"><p class="hint">Velg hvor mange sider heftet skal inneholde.</p></div></div>
-<div class="section"><span class="label">Støtte og svar</span><div class="checks"><label class="check"><input id="examples" type="checkbox" checked>Eksempel</label><label class="check"><input id="answers" type="checkbox">Fasit</label><label class="check"><input id="gridToggle" type="checkbox" checked>Rutenett</label></div><div style="margin-top:14px"><label class="label" for="gridSize">Rutenettstørrelse</label><select class="control" id="gridSize"><option value="10">1 × 1 cm</option><option value="5">0,5 × 0,5 cm</option><option value="20">2 × 2 cm</option></select></div></div>
+<div class="section"><label class="label" for="source">Oppgavekilde</label><select class="control" id="source"><option>Eksempeloppgaver</option><option disabled>Bøker og egne kilder – legges til</option></select><p class="hint">Kilder og oppgavetyper kan legges inn når de er gjennomgått.</p><div class="row"><div><label class="label" for="count">Antall oppgaver</label><input class="control" id="count" type="number" min="1" max="30" value="8"></div><div><label class="label" for="level">Nivå</label><select class="control" id="level"><option>Blandet</option><option>Enkel</option><option>Middels</option><option>Utfordrende</option></select></div></div><div style="margin-top:14px"><label class="label" for="pages">Antall oppgavesider</label><input class="control" id="pages" type="number" min="1" max="30" value="1"><p class="hint">En eventuell fasitside kommer i tillegg.</p></div></div>
+<div class="section"><span class="label">Sideoppsett</span><p class="hint">Velg retning for hvert ark. Fasitarket legges til bakerst.</p><div id="pageOrientations" class="orientation-list"></div></div><div class="section"><span class="label">Støtte og svar</span><div class="checks"><label class="check"><input id="examples" type="checkbox" checked>Eksempel</label><label class="check"><input id="answers" type="checkbox">Fasit</label><p class="hint">Fasiten samles på egne sider helt bakerst.</p><label class="check"><input id="gridToggle" type="checkbox" checked>Rutenett</label></div><div style="margin-top:14px"><label class="label" for="gridSize">Rutenettstørrelse</label><select class="control" id="gridSize"><option value="10">1 × 1 cm</option><option value="5">0,5 × 0,5 cm</option><option value="20">2 × 2 cm</option></select></div></div>
 <div class="actions"><button class="button primary" id="generate">Oppdater forhåndsvisning</button><button class="button secondary" id="print">Skriv ut</button></div>
 </aside>
-<section aria-label="Forhåndsvisning av arbeidsarket"><div class="preview-head"><div><h2>Forhåndsvisning</h2><p>Omtrent slik blir arket på papir</p></div><div class="preview-tools"><span class="badge">A4 · Stående</span><span class="badge" id="pagePreview">1 side</span></div></div><div class="preview-card"><article class="paper"><div class="paper-top"><span>Matteark</span><span id="gradePreview">8. trinn</span></div><h2 id="worksheetTitle">Brøk</h2><p class="paper-sub" id="worksheetSub">Regn ut. Vis hvordan du tenker.</p><div class="student"><span>Navn:</span><span class="line"></span><span>Dato:</span><span class="line"></span></div><div class="task"><div class="task-title"><span class="num">1</span><p id="exampleText">Regn ut: ¾ + ⅛. Skriv svaret så enkelt som mulig.</p></div><div class="workgrid" id="workgrid"></div><p class="answer" id="answerText" hidden>Fasit: ⅞</p></div><div class="task"><div class="task-title"><span class="num">2</span><p>En oppgave til å øve på samme tema. Vis utregningen din.</p></div><div class="workgrid extra-grid"></div></div><div class="task"><div class="task-title"><span class="num">3</span><p>Prøv selv: forklar kort hvordan du kom fram til svaret.</p></div><div class="workgrid extra-grid"></div></div><div class="paper-foot"><span id="sourcePreview">Eksempeloppgaver</span><span id="countPreview">Oppgaver 1–3 av 8</span><span id="pageNumber">Side 1 av 1</span></div></article></div><p class="notice">Dette er en tidlig visuell prototype. Oppgavekilder og full oppgavegenerering kommer senere.</p></section>
+<section aria-label="Forhåndsvisning av arbeidsarket"><div class="preview-head"><div><h2>Forhåndsvisning</h2><p>Omtrent slik blir arket på papir</p></div><div class="preview-tools"><span class="badge" id="orientationPreview">A4 · Loddrett</span><button class="button secondary page-nav" id="prevPage" type="button" aria-label="Forrige side" disabled>‹</button><span class="badge" id="pagePreview">Side 1 av 1</span><button class="button secondary page-nav" id="nextPage" type="button" aria-label="Neste side">›</button></div></div><div class="preview-card"><article class="paper portrait" id="paper"><div id="exercisePageContent"><div class="paper-top"><span>Matteark</span><span id="gradePreview">8. trinn</span></div><h2 id="worksheetTitle">Brøk</h2><p class="paper-sub" id="worksheetSub">Regn ut. Vis hvordan du tenker.</p><div class="student"><span>Navn:</span><span class="line"></span><span>Dato:</span><span class="line"></span></div><div class="task"><div class="task-title"><span class="num">1</span><p id="exampleText">Regn ut: ¾ + ⅛. Skriv svaret så enkelt som mulig.</p></div><div class="workgrid" id="workgrid"></div><p class="answer" id="answerText" hidden>Fasit: ⅞</p></div><div class="task"><div class="task-title"><span class="num">2</span><p>En oppgave til å øve på samme tema. Vis utregningen din.</p></div><div class="workgrid extra-grid"></div></div><div class="task"><div class="task-title"><span class="num">3</span><p>Prøv selv: forklar kort hvordan du kom fram til svaret.</p></div><div class="workgrid extra-grid"></div></div><div class="paper-foot"><span id="sourcePreview">Eksempeloppgaver</span><span id="countPreview">Oppgaver 1–3 av 8</span><span id="pageNumber">Side 1 av 1</span></div></div><div id="answerPageContent" hidden><div class="paper-top"><span>Matteark</span><span id="answerGrade">8. trinn</span></div><h2>Fasit</h2><p class="paper-sub">Fasiten samles her på egne sider bakerst. Fullstendige svar legges inn når oppgavene genereres.</p><div class="task"><div class="task-title"><span class="num">1</span><p>Eksempel: ¾ + ⅛ = ⅞</p></div></div><div class="paper-foot"><span>Fasit</span><span id="answerPageNumber">Side 2 av 2</span></div></div></article></div><p class="notice">Dette er en visuell prototype. Full oppgavegenerering og utskrift av alle valgte sider kommer senere.</p></section>
 </div></main>
 <script>
-const $=id=>document.getElementById(id);const topics=[...document.querySelectorAll('input[name="topic"]')];function update(){const chosen=topics.filter(x=>x.checked).map(x=>x.value);$('worksheetTitle').textContent=chosen.length?chosen.join(' · '):'Arbeidsark';$('gradePreview').textContent=$('grade').value;$('countPreview').textContent=`Oppgaver 1–3 av ${$('count').value||8}`;$('sourcePreview').textContent=$('source').value;const pages=Math.max(1,Math.min(30,Number($('pages').value)||1));$('pages').value=pages;$('pagePreview').textContent=pages===1?'1 side':`${pages} sider`;$('pageNumber').textContent=`Side 1 av ${pages}`;$('answerText').hidden=!$('answers').checked;const showGrid=$('gridToggle').checked;$('workgrid').hidden=!showGrid;document.querySelectorAll('.extra-grid').forEach(x=>x.hidden=!showGrid);const size=$('gridSize').value;document.querySelectorAll('.workgrid').forEach(x=>x.style.backgroundSize=`${size}mm ${size}mm`);$('worksheetSub').textContent=$('examples').checked?'Se eksempelet, og prøv deretter selv.':'Regn ut. Vis hvordan du tenker.'}document.querySelectorAll('select,input').forEach(x=>x.addEventListener('change',update));$('generate').addEventListener('click',update);$('print').addEventListener('click',()=>window.print());update();
+const $=id=>document.getElementById(id);
+const topics=[...document.querySelectorAll('input[name="topic"]')];
+const orientationByPage=new Map();
+let currentPage=1;
+let renderedPageTotal=0;
+function renderPageOrientations(exercisePages,totalPages){
+ const container=$("pageOrientations");
+ container.innerHTML="";
+ for(let page=1;page<=totalPages;page++){
+  if(!orientationByPage.has(page))orientationByPage.set(page,"portrait");
+  const label=page>exercisePages?"Fasitark":"Oppgaveark "+page;
+  const row=document.createElement("label");
+  row.className="orientation-row";
+  const text=document.createElement("span");
+  text.textContent=label;
+  const select=document.createElement("select");
+  select.className="control page-orientation";
+  select.setAttribute("aria-label",label+" – retning");
+  select.dataset.page=String(page);
+  select.innerHTML="<option value="portrait">Loddrett</option><option value="landscape">Vannrett</option>";
+  select.value=orientationByPage.get(page);
+  select.addEventListener("change",()=>{orientationByPage.set(page,select.value);update()});
+  row.append(text,select);
+  container.append(row);
+ }
+}
+function update(){
+ const exercisePages=Math.max(1,Math.min(30,Number($("pages").value)||1));
+ $("pages").value=exercisePages;
+ const answerPages=$("answers").checked?1:0;
+ const totalPages=exercisePages+answerPages;
+ if(currentPage>totalPages)currentPage=totalPages;
+ if(renderedPageTotal!==totalPages){renderPageOrientations(exercisePages,totalPages);renderedPageTotal=totalPages}
+ const chosen=topics.filter(x=>x.checked).map(x=>x.value);
+ $("worksheetTitle").textContent=chosen.length?chosen.join(" · "):"Arbeidsark";
+ $("gradePreview").textContent=$("grade").value;
+ $("answerGrade").textContent=$("grade").value;
+ $("countPreview").textContent="Oppgaver 1–3 av "+($("count").value||8);
+ $("sourcePreview").textContent=$("source").value;
+ $("answerText").hidden=!$("answers").checked;
+ const isAnswerPage=currentPage>exercisePages;
+ $("exercisePageContent").hidden=isAnswerPage;
+ $("answerPageContent").hidden=!isAnswerPage;
+ const orientation=orientationByPage.get(currentPage)||"portrait";
+ $("paper").classList.toggle("landscape",orientation==="landscape");
+ $("paper").classList.toggle("portrait",orientation!=="landscape");
+ $("orientationPreview").textContent=orientation==="landscape"?"A4 · Vannrett":"A4 · Loddrett";
+ $("pagePreview").textContent="Side "+currentPage+" av "+totalPages;
+ $("pageNumber").textContent="Side "+currentPage+" av "+totalPages;
+ $("answerPageNumber").textContent="Side "+currentPage+" av "+totalPages;
+ $("prevPage").disabled=currentPage<=1;
+ $("nextPage").disabled=currentPage>=totalPages;
+ const showGrid=$("gridToggle").checked;
+ $("workgrid").hidden=!showGrid;
+ document.querySelectorAll(".extra-grid").forEach(x=>x.hidden=!showGrid);
+ const size=$("gridSize").value;
+ document.querySelectorAll(".workgrid").forEach(x=>x.style.backgroundSize=size+"mm "+size+"mm");
+ $("worksheetSub").textContent=$("examples").checked?"Se eksempelet, og prøv deretter selv.":"Regn ut. Vis hvordan du tenker.";
+}
+document.querySelectorAll("select:not(.page-orientation),input").forEach(x=>x.addEventListener("change",update));
+$("generate").addEventListener("click",update);
+$("prevPage").addEventListener("click",()=>{currentPage=Math.max(1,currentPage-1);update()});
+$("nextPage").addEventListener("click",()=>{const total=Math.max(1,Math.min(30,Number($("pages").value)||1))+($("answers").checked?1:0);currentPage=Math.min(total,currentPage+1);update()});
+$("print").addEventListener("click",()=>window.print());
+update();
 </script>
 </body>
 </html>
+
+
+
