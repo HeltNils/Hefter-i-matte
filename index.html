@@ -41,6 +41,33 @@
 .answer{display:none!important}
 .task-meta{margin:-12px 0 22px;color:#657187;font-size:11px;line-height:1.5}
 .subtopics-list{display:grid;gap:10px;max-height:280px;overflow:auto;padding-right:4px}.subtopic-group{padding:8px 0;border-top:1px solid #edf0f4}.subtopic-group .checks{margin-top:8px}.advanced-fields{display:grid;gap:14px;margin-top:14px}
+
+.paper{display:none;flex-direction:column;width:210mm;height:297mm;min-height:0;padding:14mm 16mm;overflow:hidden;position:relative}
+.paper.current{display:flex}
+.paper.landscape{width:297mm;height:210mm;min-height:0;padding:10mm 16mm;zoom:.8}
+.preview-card{overflow:auto}
+.paper h2{margin:12px 0 4px;font-size:22px}.paper-sub{margin:0 0 10px}.student{margin:0 0 10px}
+.sheet-body{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.task{flex:1 1 auto;display:flex;flex-direction:column;padding:8px 0}
+.task-title{align-items:flex-start}.task-text{flex:1}.task-text p{margin:1px 0 0}
+.subs{list-style:none;margin:2px 0 0;padding:0;font-size:14px;line-height:1.5}
+.dots{font-size:9px;color:#315fe8;letter-spacing:1px;margin-top:4px}
+.workgrid{flex:1;min-height:18px;height:auto;margin:8px 0 0 37px}
+.workgrid.nogrid{border:0;background:none}
+.example{border:1px solid #c9d6ff;background:#f3f6ff;border-radius:8px;padding:8px 12px;margin:0 0 6px;font-size:13px;line-height:1.5}
+.ex-a{color:#315fe8}.facts{margin-top:4px;color:#4d596c}
+.empty{color:#a05a00;background:#fff7e8;padding:14px;border-radius:8px}
+.ans-row{display:grid;grid-template-columns:30px 1fr 210px;gap:10px;padding:7px 0;border-top:1px solid #e6e9ee;font-size:13px}
+.ans-src{color:#8a94a4;font-size:11px}
+.paper-foot{margin-top:8px}
+.notice.warn{color:#b42318;font-weight:600}
+@media print{
+ .preview-card{overflow:visible}
+ .paper,.paper.landscape{display:flex!important;zoom:1!important;box-shadow:none;margin:0;break-after:page;overflow:hidden}
+ .paper.portrait{width:210mm;height:296mm;min-height:0;padding:14mm 16mm}
+ .paper.landscape{width:297mm;height:209mm;min-height:0;padding:10mm 16mm}
+ .paper:last-child{break-after:auto}
+}
 </style>
 </head>
 <body>
@@ -49,14 +76,15 @@
 <section class="intro"><div class="eyebrow">Arbeidsarkbygger</div><h1>Lag arbeidsark</h1><p>Velg innholdet – se arket ta form med én gang.</p></section>
 <div class="layout">
 <aside class="panel" aria-label="Innstillinger for arbeidsarket"><h2>Innhold og oppsett</h2>
-<div class="section"><label class="label" for="grade">Trinn</label><select class="control" id="grade"><optgroup label="Barneskole"><option>1. trinn</option><option>2. trinn</option><option>3. trinn</option><option>4. trinn</option><option>5. trinn</option><option>6. trinn</option><option>7. trinn</option></optgroup><optgroup label="Ungdomsskole"><option selected>8. trinn</option><option>9. trinn</option><option>10. trinn</option></optgroup><optgroup label="Videregående"><option>VG1</option><option>VG2</option><option>VG3</option></optgroup></select><p class="hint">VGS-kompetansemål legges inn fra egen læreplankilde.</p></div>
-<div class="section"><span class="label">Tema</span><div class="checks"><label class="check"><input type="checkbox" name="topic" value="Tall og regning">Tall og regning</label><label class="check"><input type="checkbox" name="topic" value="Brøk, desimaltall og prosent" checked>Brøk, desimaltall og prosent</label><label class="check"><input type="checkbox" name="topic" value="Algebra og likninger">Algebra og likninger</label><label class="check"><input type="checkbox" name="topic" value="Funksjoner">Funksjoner</label><label class="check"><input type="checkbox" name="topic" value="Geometri og måling">Geometri og måling</label><label class="check"><input type="checkbox" name="topic" value="Statistikk og sannsynlighet">Statistikk og sannsynlighet</label><label class="check"><input type="checkbox" name="topic" value="Personlig økonomi">Personlig økonomi</label><label class="check"><input type="checkbox" name="topic" value="Algoritmer og programmering">Algoritmer og programmering</label></div><p class="hint">Temaene kan kombineres og tagges mot kompetansemål.</p></div>
-<div class="section"><details id="subtopicDetails"><summary class="label">Undertemaer (valgfritt)</summary><p class="hint" id="subtopicHint">Velg trinn og hovedtema for relevante forslag.</p><div id="subtopicOptions" class="subtopics-list"></div></details></div><div class="section"><label class="label" for="focus">Matematisk fokus</label><select class="control" id="focus"><option>Blandet</option><option>Utforske mønstre</option><option>Løse problemer</option><option>Modellere en situasjon</option><option>Forklare og argumentere</option><option>Vurdere løsninger og modeller</option></select></div><div class="section"><label class="label" for="taskType">Oppgavetype</label><select class="control" id="taskType"><option>Blandet</option><option>Ferdighetstrening</option><option>Tekstoppgave</option><option>Åpen utforsking</option><option>Modelleringsoppgave</option><option>Forklar og begrunn</option><option>Tolk data</option><option>Finn og rett feil</option><option>Visuell oppgave</option><option>Mønster og logikk</option><option>Spill / aktivitet</option><option>Digital oppgave</option></select></div><div class="section"><span class="label">Representasjoner</span><div class="checks"><label class="check"><input type="checkbox" name="representation" value="Tallinje">Tallinje</label><label class="check"><input type="checkbox" name="representation" value="Figur/tegning">Figur/tegning</label><label class="check"><input type="checkbox" name="representation" value="Tabell/diagram">Tabell/diagram</label><label class="check"><input type="checkbox" name="representation" value="Koordinatsystem">Koordinatsystem</label></div><p class="hint">Velg visuelle eller symbolske støtterammer for oppgavene.</p></div><div class="section"><details><summary class="label">Kontekst og verktøy (valgfritt)</summary><div class="advanced-fields"><div><label class="label" for="workMode">Arbeidsform</label><select class="control" id="workMode"><option>Blandet</option><option>Øving</option><option>Repetisjon</option><option>Utforskende arbeid</option><option>Prøveøving</option><option>Eksamenstrening</option></select></div><div><label class="label" for="context">Tverrfaglig kontekst</label><select class="control" id="context"><option>Ingen særskilt kontekst</option><option>Demokrati og medborgerskap</option><option>Folkehelse og livsmestring</option><option>Miljø og bærekraft</option><option>Interkulturell kompetanse og FN</option><option>Ungdomsliv og personlige valg</option><option>Forskning og utforsking</option></select></div><div><label class="label" for="tool">Digitalt verktøy</label><select class="control" id="tool"><option>Papir / ingen</option><option>Regneark</option><option>GeoGebra / dynamisk geometri</option><option>Graftegner</option><option>CAS</option><option>Python / programmering</option></select></div><p class="hint">Kontekst og verktøy er tilleggskoder, ikke egne matematiske temaer.</p></div></details></div><div class="section"><label class="label" for="source">Oppgavekilde</label><select class="control" id="source"><option value="examples">Eksempeloppgaver</option><option value="multi5" disabled>Multi 5b – oppgaveprofiler (5. trinn)</option><option value="books" disabled>Bøker og egne kilder – legges til</option></select><p class="hint">Multi 5b brukes som tematiske oppgaveprofiler; original oppgavetekst er ikke lagret.</p><div class="row"><div><label class="label" for="count">Antall oppgaver</label><input class="control" id="count" type="number" min="1" max="30" value="8"></div><div><label class="label" for="level">Nivå</label><select class="control" id="level"><option>Blandet</option><option>Enkel</option><option>Middels</option><option>Utfordrende</option></select></div></div><div style="margin-top:14px"><label class="label" for="pages">Antall oppgavesider</label><input class="control" id="pages" type="number" min="1" max="30" value="1"><p class="hint">En eventuell fasitside kommer i tillegg.</p></div></div>
-<div class="section"><span class="label">Sideoppsett</span><p class="hint">Velg retning for hvert ark. Fasitarket legges til bakerst.</p><div id="pageOrientations" class="orientation-list"></div></div><div class="section"><span class="label">Støtte og svar</span><div class="checks"><label class="check"><input id="examples" type="checkbox" checked>Eksempel</label><label class="check"><input id="answers" type="checkbox">Fasit</label><p class="hint">Fasiten samles på egne sider helt bakerst.</p><label class="check"><input id="gridToggle" type="checkbox" checked>Rutenett</label></div><div style="margin-top:14px"><label class="label" for="gridSize">Rutenettstørrelse</label><select class="control" id="gridSize"><option value="10">1 × 1 cm</option><option value="5">0,5 × 0,5 cm</option><option value="20">2 × 2 cm</option></select></div></div>
-<div class="actions"><button class="button primary" id="generate">Oppdater forhåndsvisning</button><button class="button secondary" id="print">Skriv ut</button></div>
+<div class="section"><label class="label" for="grade">Trinn</label><select class="control" id="grade"><optgroup label="Barneskole"><option>1. trinn</option><option>2. trinn</option><option>3. trinn</option><option>4. trinn</option><option selected>5. trinn</option><option>6. trinn</option><option>7. trinn</option></optgroup><optgroup label="Ungdomsskole"><option>8. trinn</option><option>9. trinn</option><option>10. trinn</option></optgroup><optgroup label="Videregående"><option>VG1</option><option>VG2</option><option>VG3</option></optgroup></select><p class="hint">VGS-kompetansemål legges inn fra egen læreplankilde.</p></div>
+<div class="section"><span class="label">Tema</span><div class="checks"><label class="check"><input type="checkbox" name="topic" value="Tall og regning" checked>Tall og regning</label><label class="check"><input type="checkbox" name="topic" value="Brøk, desimaltall og prosent">Brøk, desimaltall og prosent</label><label class="check"><input type="checkbox" name="topic" value="Algebra og likninger">Algebra og likninger</label><label class="check"><input type="checkbox" name="topic" value="Funksjoner">Funksjoner</label><label class="check"><input type="checkbox" name="topic" value="Geometri og måling">Geometri og måling</label><label class="check"><input type="checkbox" name="topic" value="Statistikk og sannsynlighet">Statistikk og sannsynlighet</label><label class="check"><input type="checkbox" name="topic" value="Personlig økonomi">Personlig økonomi</label><label class="check"><input type="checkbox" name="topic" value="Algoritmer og programmering">Algoritmer og programmering</label></div><p class="hint">Temaene kan kombineres og tagges mot kompetansemål.</p></div>
+<div class="section"><details id="subtopicDetails"><summary class="label">Undertemaer (valgfritt)</summary><p class="hint" id="subtopicHint">Velg trinn og hovedtema for relevante forslag.</p><div id="subtopicOptions" class="subtopics-list"></div></details></div><div class="section"><label class="label" for="focus">Matematisk fokus</label><select class="control" id="focus"><option>Blandet</option><option>Utforske mønstre</option><option>Løse problemer</option><option>Modellere en situasjon</option><option>Forklare og argumentere</option><option>Vurdere løsninger og modeller</option></select></div><div class="section"><label class="label" for="taskType">Oppgavetype</label><select class="control" id="taskType"><option>Blandet</option><option>Ferdighetstrening</option><option>Tekstoppgave</option><option>Åpen utforsking</option><option>Modelleringsoppgave</option><option>Forklar og begrunn</option><option>Tolk data</option><option>Finn og rett feil</option><option>Visuell oppgave</option><option>Mønster og logikk</option><option>Spill / aktivitet</option><option>Digital oppgave</option></select></div><div class="section"><span class="label">Representasjoner</span><div class="checks"><label class="check"><input type="checkbox" name="representation" value="Tallinje">Tallinje</label><label class="check"><input type="checkbox" name="representation" value="Figur/tegning">Figur/tegning</label><label class="check"><input type="checkbox" name="representation" value="Tabell/diagram">Tabell/diagram</label><label class="check"><input type="checkbox" name="representation" value="Koordinatsystem">Koordinatsystem</label></div><p class="hint">Velg visuelle eller symbolske støtterammer for oppgavene.</p></div><div class="section"><details><summary class="label">Kontekst og verktøy (valgfritt)</summary><div class="advanced-fields"><div><label class="label" for="workMode">Arbeidsform</label><select class="control" id="workMode"><option>Blandet</option><option>Øving</option><option>Repetisjon</option><option>Utforskende arbeid</option><option>Prøveøving</option><option>Eksamenstrening</option></select></div><div><label class="label" for="context">Tverrfaglig kontekst</label><select class="control" id="context"><option>Ingen særskilt kontekst</option><option>Demokrati og medborgerskap</option><option>Folkehelse og livsmestring</option><option>Miljø og bærekraft</option><option>Interkulturell kompetanse og FN</option><option>Ungdomsliv og personlige valg</option><option>Forskning og utforsking</option></select></div><div><label class="label" for="tool">Digitalt verktøy</label><select class="control" id="tool"><option>Papir / ingen</option><option>Regneark</option><option>GeoGebra / dynamisk geometri</option><option>Graftegner</option><option>CAS</option><option>Python / programmering</option></select></div><p class="hint">Kontekst og verktøy er tilleggskoder, ikke egne matematiske temaer.</p></div></details></div><div class="section"><label class="label" for="source">Oppgavekilde</label><select class="control" id="source"><option value="multi5">Multi 5b – parallelloppgaver (5. trinn)</option><option value="books" disabled>Bøker og egne kilder – legges til</option></select><p class="hint">Oppgavene er nye parallelloppgaver modellert etter Multi 5b (samme oppbygging, nye tall). Boktekst er ikke lagret.</p><div class="row"><div><label class="label" for="count">Oppgaver per side</label><input class="control" id="count" type="number" min="1" max="12" value="5"></div><div><label class="label" for="level">Nivå</label><select class="control" id="level"><option>Blandet</option><option>Enkel</option><option>Middels</option><option>Utfordrende</option></select></div></div><div style="margin-top:14px"><label class="label" for="pages">Antall oppgavesider</label><input class="control" id="pages" type="number" min="1" max="30" value="1"><p class="hint">Fasitsider kommer i tillegg bakerst.</p></div></div>
+<div class="section"><span class="label">Sideoppsett</span><p class="hint">Velg retning for hvert ark. Fasitarket legges til bakerst.</p><div id="pageOrientations" class="orientation-list"></div></div><div class="section"><span class="label">Støtte og svar</span><div class="checks"><label class="check"><input id="examples" type="checkbox" checked>Eksempel</label><label class="check"><input id="answers" type="checkbox">Fasit</label><p class="hint">Fasiten samles på egne sider helt bakerst.</p><label class="check"><input id="gridToggle" type="checkbox" checked>Rutenett</label><label class="check"><input id="factsToggle" type="checkbox" checked>Husk-boks</label><label class="check"><input id="levelDots" type="checkbox" checked>Nivåprikker</label><label class="check"><input id="sortLevel" type="checkbox" checked>Lett → vanskelig</label><label class="check"><input id="allowFigure" type="checkbox">Med figur-oppgaver</label><p class="hint">Figur-oppgaver henviser til tegninger fra boka og er skrudd av som standard.</p></div><div style="margin-top:14px"><label class="label" for="gridSize">Rutenettstørrelse</label><select class="control" id="gridSize"><option value="10">1 × 1 cm</option><option value="5">0,5 × 0,5 cm</option><option value="20">2 × 2 cm</option></select></div></div>
+<div class="actions"><button class="button primary" id="generate">Oppdater</button><button class="button secondary" id="shuffle" type="button">Bland</button><button class="button secondary" id="print">Skriv ut</button></div>
 </aside>
-<section aria-label="Forhåndsvisning av arbeidsarket"><div class="preview-head"><div><h2>Forhåndsvisning</h2><p>Omtrent slik blir arket på papir</p></div><div class="preview-tools"><span class="badge" id="orientationPreview">A4 · Loddrett</span><button class="button secondary page-nav" id="prevPage" type="button" aria-label="Forrige side" disabled>‹</button><span class="badge" id="pagePreview">Side 1 av 1</span><button class="button secondary page-nav" id="nextPage" type="button" aria-label="Neste side">›</button></div></div><div class="preview-card"><article class="paper portrait" id="paper"><div id="exercisePageContent"><div class="paper-top"><span>Matteark</span><span id="gradePreview">8. trinn</span></div><h2 id="worksheetTitle">Brøk</h2><p class="paper-sub" id="worksheetSub">Regn ut. Vis hvordan du tenker.</p><p class="task-meta" id="taskMeta">Fokus: Blandet · Oppgavetype: Blandet</p><div class="student"><span>Navn:</span><span class="line"></span><span>Dato:</span><span class="line"></span></div><div class="task"><div class="task-title"><span class="num">1</span><p id="exampleText">Regn ut: ¾ + ⅛. Skriv svaret så enkelt som mulig.</p></div><div class="workgrid" id="workgrid"></div><p class="answer" id="answerText" hidden>Fasit: ⅞</p></div><div class="task"><div class="task-title"><span class="num">2</span><p>En oppgave til å øve på samme tema. Vis utregningen din.</p></div><div class="workgrid extra-grid"></div></div><div class="task"><div class="task-title"><span class="num">3</span><p>Prøv selv: forklar kort hvordan du kom fram til svaret.</p></div><div class="workgrid extra-grid"></div></div><div class="paper-foot"><span id="sourcePreview">Eksempeloppgaver</span><span id="countPreview">Oppgaver 1–3 av 8</span><span id="pageNumber">Side 1 av 1</span></div></div><div id="answerPageContent" hidden><div class="paper-top"><span>Matteark</span><span id="answerGrade">8. trinn</span></div><h2>Fasit</h2><p class="paper-sub">Fasiten samles her på egne sider bakerst. Fullstendige svar legges inn når oppgavene genereres.</p><div class="task"><div class="task-title"><span class="num">1</span><p>Eksempel: ¾ + ⅛ = ⅞</p></div></div><div class="paper-foot"><span>Fasit</span><span id="answerPageNumber">Side 2 av 2</span></div></div></article></div><p class="notice">Dette er en visuell prototype. Full oppgavegenerering og utskrift av alle valgte sider kommer senere.</p></section>
+<section aria-label="Forhåndsvisning av arbeidsarket"><div class="preview-head"><div><h2>Forhåndsvisning</h2><p>Omtrent slik blir arket på papir</p></div><div class="preview-tools"><span class="badge" id="orientationPreview">A4 · Loddrett</span><button class="button secondary page-nav" id="prevPage" type="button" aria-label="Forrige side" disabled>‹</button><span class="badge" id="pagePreview">Side 1 av 1</span><button class="button secondary page-nav" id="nextPage" type="button" aria-label="Neste side">›</button></div></div><div class="preview-card"><div id="sheets"></div></div><p class="notice" id="notice"></p></section>
 </div></main>
+<script src="multi5b-data.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 const topics=[...document.querySelectorAll('input[name="topic"]')];
@@ -64,51 +92,149 @@ const representations=[...document.querySelectorAll('input[name="representation"
 const orientationByPage=new Map();
 let currentPage=1;
 let renderedPageTotal=0;
+let renderedAnswerSig=0;
 
 const subtopicSelections=new Set();
-const subtopicCatalog={
- "5. trinn":{"Tall og regning":["Multiplikasjon som like grupper","Multiplikasjonstabeller","Multiplikasjon med rutenett og arealmodeller","Divisjon som deling og måling","Sammenhengen mellom multiplikasjon og divisjon"],"Brøk, desimaltall og prosent":["Brøk som del av en helhet","Brøk av en mengde","Likeverdige brøker","Tideler og tallinje","Addisjon og subtraksjon med brøk","Brøk i diagrammer og sannsynlighet"],"Algebra og likninger":["Tallfølger","Figurmønstre og tabeller","Vekst i mønstre","Tallpyramider og regnegåter","Ukjente tall og skjulte regler"],"Geometri og måling":["Lengde og måleenheter","Omkrets","Areal med rutenett","Sammensatte figurer og trekanter","Målestokk","Forskyvning, speiling og rotasjon"],"Statistikk og sannsynlighet":["Brøk i diagrammer","Enkel sannsynlighet i spill"],"Personlig økonomi":["Pris, penger og målekontekster"],"Algoritmer og programmering":["Regneark og formler"]},
- "8. trinn":{"Tall og regning":["Hele tall","Desimaltall","Negative tall","Potenser","Kvadratrøtter","Standardform","Primtallsfaktorisering"],"Brøk, desimaltall og prosent":["Brøkregning","Desimaltall","Negative tall","Primtallsfaktorisering i brøkregning"],"Algebra og likninger":["Algebraiske regneregler","Tall- og geometriske mønstre","Uttrykk med variabler og konstanter","Likninger"],"Funksjoner":["Funksjoner i praktiske situasjoner","Tabell, graf og uttrykk"],"Geometri og måling":["Sammensatte måleenheter"],"Statistikk og sannsynlighet":["Statistikk","Sannsynlighet"],"Personlig økonomi":["Økonomi i praktiske situasjoner"],"Algoritmer og programmering":["Lage, teste og forbedre algoritmer","Programmering integrert i temaer"]},
- "9. trinn":{"Tall og regning":["Mønstre og tallfølger"],"Brøk, desimaltall og prosent":["Prosent og vekstfaktor"],"Algebra og likninger":["Geometriske og algebraiske mønstre"],"Geometri og måling":["Polygoner","Formlikhet og kongruens","Pytagoras","Sidelengder i trekanter","Omkrets og areal","Overflateareal og volum"],"Statistikk og sannsynlighet":["Statistiske framstillinger i media","Sentralmål og spredningsmål","Reelle datasett","Sannsynlighet i spill","Simulering av tilfeldige forsøk"],"Personlig økonomi":["Økonomi i praktiske situasjoner"],"Algoritmer og programmering":["Simulere sannsynlighet med programmering","Utforske geometri digitalt"]},
- "10. trinn":{"Tall og regning":["Prosentregning","Potenser"],"Brøk, desimaltall og prosent":["Prosentvis endring","Vekstfaktor"],"Algebra og likninger":["Multiplikasjon av polynomer","Likninger og likningssett","Algebraisk generalisering"],"Funksjoner":["Lineære funksjoner","Stigningstall","Endring per enhet og gjennomsnittsfart","Eksponentialfunksjoner","Prosentvis vekst"],"Geometri og måling":["Sammensatte måleenheter","Overflateareal og volum"],"Statistikk og sannsynlighet":["Statistikk fra reelle datasett","Statistikk i media","Sannsynlighet og simulering"],"Personlig økonomi":["Budsjett og regnskap","Sparing og renter","Lån og kreditt","Kjøp og salg"],"Algoritmer og programmering":["Python","Programmering av matematiske sammenhenger","Regneark og data"]}
-};
-const subtopicReferences={"5. trinn":{"Tall og regning":"Multi 5b, kap. 6, s. 35–65","Brøk, desimaltall og prosent":"Multi 5b, kap. 5, s. 7–33","Algebra og likninger":"Multi 5b, kap. 7, s. 68–97","Geometri og måling":"Multi 5b, kap. 8, s. 104–128","Statistikk og sannsynlighet":"Multi 5b, kap. 5, s. 7–33","Personlig økonomi":"Praktiske pris- og målekontekster i Multi 5b, kap. 8, s. 104–128","Algoritmer og programmering":"Regnearkoppgaver i Multi 5b, kap. 7, s. 68–97"}};
-function renderSubtopics(){const box=$("subtopicOptions"),grade=$("grade").value,chosen=topics.filter(x=>x.checked).map(x=>x.value),catalog=subtopicCatalog[grade],available=new Set();box.innerHTML="";if(!catalog){$("subtopicHint").textContent="Undertemaene fra treårsplanen gjelder 8.–10. trinn. Andre trinn kobles til egne kilder.";subtopicSelections.clear();return}if(!chosen.length){$("subtopicHint").textContent="Velg et hovedtema for å se undertemaer.";subtopicSelections.clear();return}let groups=0;for(const topic of chosen){const items=catalog[topic]||[];if(!items.length)continue;groups++;const group=document.createElement("div");group.className="subtopic-group";const heading=document.createElement("span");heading.className="label";heading.textContent=topic;group.append(heading);const reference=(subtopicReferences[grade]||{})[topic];if(reference){const note=document.createElement("p");note.className="hint";note.textContent=reference;group.append(note)}const checks=document.createElement("div");checks.className="checks";for(const item of items){const key=topic+"::"+item;available.add(key);const label=document.createElement("label");label.className="check";const input=document.createElement("input");input.type="checkbox";input.checked=subtopicSelections.has(key);input.addEventListener("change",()=>{input.checked?subtopicSelections.add(key):subtopicSelections.delete(key);update()});label.append(input,document.createTextNode(item));checks.append(label)}group.append(checks);box.append(group)}for(const key of [...subtopicSelections])if(!available.has(key))subtopicSelections.delete(key);$("subtopicHint").textContent=groups?(grade==="5. trinn"?"Multi 5b-profiler: tema og ferdighetsmål, ikke boktekst. Oppgavegenerator kobles til senere.":"Forslag fra treårsplanen; formell kobling følger LK20 ved kildeplassering."):"Ingen forslag fra planen for valgte temaer."}
+const D=window.MULTI5B||{oppgaver:[],eksempler:[],fakta:[]};
+let seed=1;
+const LV=["","Enkel","Middels","Utfordrende"];
+const PER_ANSWER_PAGE=16;
+function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shuffle(a,r){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function hasBank(){return $("grade").value==="5. trinn"&&D.oppgaver.length>0}
+function renderSubtopics(){
+ const box=$("subtopicOptions"),chosen=topics.filter(x=>x.checked).map(x=>x.value);box.innerHTML="";
+ if(!hasBank()){subtopicSelections.clear();$("subtopicHint").textContent=$("grade").value==="5. trinn"?"Oppgavebanken ble ikke lastet.":"Ingen oppgavebank for dette trinnet ennå.";return}
+ if(!chosen.length){subtopicSelections.clear();$("subtopicHint").textContent="Velg et hovedtema for å se undertemaer.";return}
+ const available=new Set();let groups=0;
+ for(const topic of chosen){
+  const counts=new Map();D.oppgaver.filter(t=>t.tema===topic).forEach(t=>counts.set(t.emne,(counts.get(t.emne)||0)+1));
+  if(!counts.size)continue;groups++;
+  const group=document.createElement("div");group.className="subtopic-group";
+  const heading=document.createElement("span");heading.className="label";heading.textContent=topic;group.append(heading);
+  const checks=document.createElement("div");checks.className="checks";
+  for(const [emne,n] of counts){
+   const key=topic+"::"+emne;available.add(key);
+   const label=document.createElement("label");label.className="check";
+   const input=document.createElement("input");input.type="checkbox";input.checked=subtopicSelections.has(key);
+   input.addEventListener("change",()=>{input.checked?subtopicSelections.add(key):subtopicSelections.delete(key);update()});
+   label.append(input,document.createTextNode(emne+" ("+n+")"));checks.append(label);
+  }
+  group.append(checks);box.append(group);
+ }
+ for(const key of [...subtopicSelections])if(!available.has(key))subtopicSelections.delete(key);
+ $("subtopicHint").textContent=groups?"Uten avkryssing brukes alle undertemaer. Tall i parentes = antall oppgaver.":"Ingen oppgaver for valgte temaer ennå.";
+}
 function renderPageOrientations(exercisePages,totalPages){
  const container=$("pageOrientations");container.innerHTML="";
  for(let page=1;page<=totalPages;page++){
   if(!orientationByPage.has(page))orientationByPage.set(page,"portrait");
-  const label=page>exercisePages?"Fasitark":"Oppgaveark "+page;
+  const label=page>exercisePages?"Fasitark "+(page-exercisePages):"Oppgaveark "+page;
   const row=document.createElement("label");row.className="orientation-row";
   const text=document.createElement("span");text.textContent=label;
-  const select=document.createElement("select");select.className="control page-orientation";select.setAttribute("aria-label",label+" – retning");select.dataset.page=String(page);
+  const select=document.createElement("select");select.className="control page-orientation";select.setAttribute("aria-label",label+" – retning");
   select.innerHTML='<option value="portrait">Loddrett</option><option value="landscape">Vannrett</option>';select.value=orientationByPage.get(page);
   select.addEventListener("change",()=>{orientationByPage.set(page,select.value);update()});row.append(text,select);container.append(row);
  }
 }
+function pickTasks(total){
+ const ts=new Set(topics.filter(x=>x.checked).map(x=>x.value));
+ const topicsWithPick=new Set([...subtopicSelections].map(k=>k.split("::")[0]));
+ const type=$("taskType").value,lvl=$("level").value,fig=$("allowFigure").checked;
+ let pool=D.oppgaver.filter(t=>ts.has(t.tema)&&(!topicsWithPick.has(t.tema)||subtopicSelections.has(t.tema+"::"+t.emne))&&(type==="Blandet"||t.type===type)&&(lvl==="Blandet"||LV[t.niva]===lvl)&&(fig||!t.figur));
+ const available=pool.length,r=rng(seed*7919+total);let s=shuffle(pool,r);
+ if(lvl==="Blandet"&&s.length>total){
+  const want={1:Math.round(total*.3),3:Math.round(total*.2)};want[2]=total-want[1]-want[3];
+  const by={1:[],2:[],3:[]};s.forEach(t=>by[t.niva].push(t));
+  const out=[];for(const l of [1,2,3])out.push(...by[l].splice(0,want[l]));
+  out.push(...shuffle([...by[1],...by[2],...by[3]],r).slice(0,total-out.length));s=shuffle(out,r);
+ }else s=s.slice(0,total);
+ if($("sortLevel").checked)s.sort((a,b)=>a.niva-b.niva);
+ return {tasks:s,available};
+}
+function taskBody(q){
+ const parts=q.split(/\s+(?=[a-f]\)\s)/);
+ if(parts.length<2||!/^[a-f]\)\s/.test(parts[1]))return "<p>"+esc(q)+"</p>";
+ const first=/^a\)\s/.test(parts[0]);
+ return (first?"":"<p>"+esc(parts[0])+"</p>")+'<ul class="subs">'+parts.slice(first?0:1).map(x=>"<li>"+esc(x)+"</li>").join("")+"</ul>";
+}
+function dots(n){return '<span class="dots" title="'+LV[n]+'">'+"●".repeat(n)+"○".repeat(3-n)+"</span>"}
+function pickExample(first){
+ if(!first)return null;
+ return D.eksempler.find(e=>e.emne===first.emne)||D.eksempler.find(e=>e.tema===first.tema)||null;
+}
+function pickFacts(first){
+ if(!first)return null;const f=D.fakta.find(x=>x.emne===first.emne&&x.fakta&&x.fakta.length);return f?f.fakta:null;
+}
 function update(){
- const multiSource=$("source").querySelector("option[value=multi5]");if(multiSource){multiSource.disabled=$("grade").value!=="5. trinn";if(multiSource.disabled&&$("source").value==="multi5")$("source").value="examples"}
  renderSubtopics();
  const exercisePages=Math.max(1,Math.min(30,Number($("pages").value)||1));$("pages").value=exercisePages;
- const totalPages=exercisePages+($("answers").checked?1:0);if(currentPage>totalPages)currentPage=totalPages;
- if(renderedPageTotal!==totalPages){renderPageOrientations(exercisePages,totalPages);renderedPageTotal=totalPages}
- const chosen=topics.filter(x=>x.checked).map(x=>x.value);$("worksheetTitle").textContent=chosen.length?chosen.join(" · "):"Arbeidsark";
- $("gradePreview").textContent=$("grade").value;$("answerGrade").textContent=$("grade").value;
- $("countPreview").textContent="Oppgaver 1–3 av "+($("count").value||8);$("sourcePreview").textContent=$("source").selectedOptions[0]?.textContent||"";
- const selectedRepresentations=representations.filter(x=>x.checked).map(x=>x.value);const selectedSubtopics=[...subtopicSelections].map(x=>x.split("::")[1]);const meta=["Fokus: "+$("focus").value,"Oppgavetype: "+$("taskType").value,"Arbeidsform: "+$("workMode").value];if($("context").value!=="Ingen særskilt kontekst")meta.push("Kontekst: "+$("context").value);if($("tool").value!=="Papir / ingen")meta.push("Verktøy: "+$("tool").value);if(selectedSubtopics.length)meta.push("Undertema: "+selectedSubtopics.join(", "));if(selectedRepresentations.length)meta.push("Støtte: "+selectedRepresentations.join(", "));$("taskMeta").textContent=meta.join(" · ");
- $("answerText").hidden=true;const isAnswerPage=currentPage>exercisePages;$("exercisePageContent").hidden=isAnswerPage;$("answerPageContent").hidden=!isAnswerPage;
- const orientation=orientationByPage.get(currentPage)||"portrait";$("paper").classList.toggle("landscape",orientation==="landscape");$("paper").classList.toggle("portrait",orientation!=="landscape");
- $("orientationPreview").textContent=orientation==="landscape"?"A4 · Vannrett":"A4 · Loddrett";$("pagePreview").textContent="Side "+currentPage+" av "+totalPages;
- $("pageNumber").textContent="Side "+currentPage+" av "+totalPages;$("answerPageNumber").textContent="Side "+currentPage+" av "+totalPages;
+ const perPage=Math.max(1,Math.min(12,Number($("count").value)||5));$("count").value=perPage;
+ const bank=hasBank();
+ const picked=bank?pickTasks(perPage*exercisePages):{tasks:[],available:0};
+ const tasks=picked.tasks,n=tasks.length;
+ const per=Math.max(1,Math.ceil(n/exercisePages));
+ const answerPages=$("answers").checked&&n?Math.ceil(n/PER_ANSWER_PAGE):0;
+ const totalPages=exercisePages+answerPages;
+ if(currentPage>totalPages)currentPage=totalPages;
+ if(renderedPageTotal!==totalPages||renderedAnswerSig!==exercisePages){renderPageOrientations(exercisePages,totalPages);renderedPageTotal=totalPages;renderedAnswerSig=exercisePages}
+ const chosen=topics.filter(x=>x.checked).map(x=>x.value);
+ const title=chosen.length?(chosen.length>3?"Blandede temaer":chosen.join(" · ")):"Arbeidsark";
+ const grade=$("grade").value,showGrid=$("gridToggle").checked,size=$("gridSize").value;
+ const showEx=$("examples").checked,showFacts=$("factsToggle").checked,showDots=$("levelDots").checked;
+ let html="";
+ for(let p=1;p<=totalPages;p++){
+  const orient=orientationByPage.get(p)||"portrait";
+  const cls="paper "+orient+(p===currentPage?" current":"");
+  const foot='<div class="paper-foot"><span>'+(bank?"Multi 5b · parallelloppgaver":"Matteark")+'</span><span>Side '+p+' av '+totalPages+'</span></div>';
+  const top='<div class="paper-top"><span>Matteark</span><span>'+esc(grade)+'</span></div>';
+  if(p<=exercisePages){
+   const slice=tasks.slice((p-1)*per,p*per),first=slice[0];
+   let b=top+"<h2>"+esc(title)+'</h2><p class="paper-sub">'+(showEx?"Se eksempelet, og prøv deretter selv.":"Regn ut. Vis hvordan du tenker.")+'</p><div class="student"><span>Navn:</span><span class="line"></span><span>Dato:</span><span class="line"></span></div><div class="sheet-body">';
+   if(!bank)b+='<p class="empty">Ingen oppgavebank for '+esc(grade)+' ennå. Bruk 5. trinn (Multi 5b) for å se et ferdig ark.</p>';
+   else if(!slice.length)b+='<p class="empty">Ingen oppgaver matcher valgene. Prøv flere temaer, annet nivå eller kryss av «Med figur-oppgaver».</p>';
+   if(slice.length&&showEx){
+    const ex=pickExample(first),facts=showFacts?pickFacts(first):null;
+    if(ex||facts)b+='<div class="example">'+(ex?'<b>Eksempel</b> <span>'+esc(ex.q)+'</span> <span class="ex-a">→ '+esc(ex.a)+'</span>':"")+(facts?'<div class="facts"><b>Husk:</b> '+facts.map(esc).join(" · ")+"</div>":"")+"</div>";
+   }
+   slice.forEach((t,i)=>{
+    const no=(p-1)*per+i+1;
+    b+='<div class="task"><div class="task-title"><span class="num">'+no+'</span><div class="task-text">'+taskBody(t.q)+"</div>"+(showDots?dots(t.niva):"")+'</div><div class="workgrid'+(showGrid?"":" nogrid")+'" style="background-size:'+size+"mm "+size+'mm"></div></div>';
+   });
+   html+='<article class="'+cls+'" data-kind="ex">'+b+"</div>"+foot+"</article>";
+  }else{
+   const ap=p-exercisePages,slice=tasks.slice((ap-1)*PER_ANSWER_PAGE,ap*PER_ANSWER_PAGE);
+   let b=top+"<h2>Fasit</h2>"+'<p class="paper-sub">Svar på parallelloppgavene (egne tall, samme oppbygging som i boka). Kontrollregn gjerne før bruk.</p><div class="sheet-body ans-list">';
+   slice.forEach((t,i)=>{const no=(ap-1)*PER_ANSWER_PAGE+i+1;b+='<div class="ans-row"><span class="num">'+no+'</span><span class="ans-a">'+esc(t.a)+'</span><span class="ans-src">Multi 5b s. '+esc(t.side)+" (nr "+esc(t.bok)+") · "+LV[t.niva]+"</span></div>"});
+   html+='<article class="'+cls+'" data-kind="ans">'+b+"</div>"+foot+"</article>";
+  }
+ }
+ $("sheets").innerHTML=html;
+ const papers=[...document.querySelectorAll("#sheets .paper")];let over=[];
+ papers.forEach((el,i)=>{const was=el.style.display;el.style.display="flex";const body=el.querySelector(".sheet-body");if(body&&body.scrollHeight>body.clientHeight+2)over.push(i+1);el.style.display=was});
+ const orientation=orientationByPage.get(currentPage)||"portrait";
+ $("orientationPreview").textContent=orientation==="landscape"?"A4 · Vannrett":"A4 · Loddrett";
+ $("pagePreview").textContent="Side "+currentPage+" av "+totalPages;
  $("prevPage").disabled=currentPage<=1;$("nextPage").disabled=currentPage>=totalPages;
- const showGrid=$("gridToggle").checked;$("workgrid").hidden=!showGrid;document.querySelectorAll(".extra-grid").forEach(x=>x.hidden=!showGrid);
- const size=$("gridSize").value;document.querySelectorAll(".workgrid").forEach(x=>x.style.backgroundSize=size+"mm "+size+"mm");
- $("worksheetSub").textContent=$("examples").checked?"Se eksempelet, og prøv deretter selv.":"Regn ut. Vis hvordan du tenker.";
+ let note="";
+ if(!bank)note="Oppgavebanken dekker foreløpig bare 5. trinn (Multi 5b).";
+ else{
+  note=n+" oppgaver på "+exercisePages+" ark"+(answerPages?" + "+answerPages+" fasitark":"")+". ";
+  if(picked.available<perPage*exercisePages)note+="Bare "+picked.available+" oppgaver passer til valgene – flere ark/lavere tall gir tomme ark. ";
+  note+="Oppgavene er nye parallelloppgaver modellert etter Multi 5b (ikke boktekst).";
+ }
+ if(over.length)note+=" ⚠ For mange oppgaver på ark "+over.join(", ")+" – reduser «Oppgaver per side» eller bruk vannrett.";
+ $("notice").textContent=note;$("notice").classList.toggle("warn",over.length>0);
 }
 document.querySelectorAll("select:not(.page-orientation),input").forEach(x=>x.addEventListener("change",update));
-$("generate").addEventListener("click",update);$("prevPage").addEventListener("click",()=>{currentPage=Math.max(1,currentPage-1);update()});
-$("nextPage").addEventListener("click",()=>{const total=Math.max(1,Math.min(30,Number($("pages").value)||1))+($("answers").checked?1:0);currentPage=Math.min(total,currentPage+1);update()});
-$("print").addEventListener("click",()=>window.print());update();
+$("generate").addEventListener("click",update);
+$("shuffle").addEventListener("click",()=>{seed++;update()});
+$("prevPage").addEventListener("click",()=>{currentPage=Math.max(1,currentPage-1);update()});
+$("nextPage").addEventListener("click",()=>{currentPage++;update()});
+$("print").addEventListener("click",()=>window.print());
+update();
+
 </script>
 </body>
 </html>
